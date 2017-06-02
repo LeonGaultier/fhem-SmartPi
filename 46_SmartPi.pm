@@ -232,9 +232,7 @@ sub SmartPi_Get($@) {
         
         return "Unknown argument $cmd, choose one of $list";
     }
-    
-    
-    readingsSingleUpdate($hash,'state','fetch data',1);
+
     
     SmartPi_GetData($hash,$phaseId,$valueId);
     
@@ -268,7 +266,9 @@ sub SmartPi_GetData($@) {
     my $port                        = $hash->{PORT};
 
     my $uri                         = $host . ':' . $port . '/api/' . $phaseId . '/' . $valueId . '/now';
-
+    
+    
+    readingsSingleUpdate($hash,'state','fetch data',1);
 
     HttpUtils_NonblockingGet(
         {
