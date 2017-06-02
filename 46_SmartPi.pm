@@ -40,7 +40,7 @@
 #
 ###### Möglicher Aufbau eines JSON Strings für die SmartPi
 #
-#{"serial":"smartpi160812345","name":"House","lat":52.3667,"lng":9.7167,"time":"2017-05-30 19:52:11","softwareversion":"","ipaddress":"169.254.3.10","datasets":[{"time":"2017-05-30 19:52:08","phases":[{"phase":1,"name":"phase 1","values":[{"type":"current","unity":"A","info":"","data":0.24830514},{"type":"voltage","unity":"V","info":"","data":230},{"type":"power","unity":"W","info":"","data":57.110184},{"type":"cosphi","unity":"","info":"","data":0.70275474},{"type":"frequency","unity":"Hz","info":"","data":120.413925}]},{"phase":2,"name":"phase 2","values":[{"type":"current","unity":"A","info":"","data":0.86874366},{"type":"voltage","unity":"V","info":"","data":230},{"type":"power","unity":"W","info":"","data":199.81104},{"type":"cosphi","unity":"","info":"","data":0.99155134},{"type":"frequency","unity":"Hz","info":"","data":386.1237}]},{"phase":3,"name":"phase 3","values":[{"type":"current","unity":"A","info":"","data":1.3195294},{"type":"voltage","unity":"V","info":"","data":230},{"type":"power","unity":"W","info":"","data":303.49176},{"type":"cosphi","unity":"","info":"","data":-0.25960922},{"type":"frequency","unity":"Hz","info":"","data":153.38525}]},{"phase":4,"name":"phase 4","values":[{"type":"current","unity":"A","info":"","data":1.0668689}]}]}]}
+# {"serial":"smartpi160812345","name":"House","lat":52.3667,"lng":9.7167,"time":"2017-05-30 19:52:11","softwareversion":"","ipaddress":"169.254.3.10","datasets":[{"time":"2017-05-30 19:52:08","phases":[{"phase":1,"name":"phase 1","values":[{"type":"current","unity":"A","info":"","data":0.24830514},{"type":"voltage","unity":"V","info":"","data":230},{"type":"power","unity":"W","info":"","data":57.110184},{"type":"cosphi","unity":"","info":"","data":0.70275474},{"type":"frequency","unity":"Hz","info":"","data":120.413925}]},{"phase":2,"name":"phase 2","values":[{"type":"current","unity":"A","info":"","data":0.86874366},{"type":"voltage","unity":"V","info":"","data":230},{"type":"power","unity":"W","info":"","data":199.81104},{"type":"cosphi","unity":"","info":"","data":0.99155134},{"type":"frequency","unity":"Hz","info":"","data":386.1237}]},{"phase":3,"name":"phase 3","values":[{"type":"current","unity":"A","info":"","data":1.3195294},{"type":"voltage","unity":"V","info":"","data":230},{"type":"power","unity":"W","info":"","data":303.49176},{"type":"cosphi","unity":"","info":"","data":-0.25960922},{"type":"frequency","unity":"Hz","info":"","data":153.38525}]},{"phase":4,"name":"phase 4","values":[{"type":"current","unity":"A","info":"","data":1.0668689}]}]}]}
 #
 #
 ##
@@ -175,6 +175,16 @@ sub SmartPi_Attr(@) {
 
             readingsSingleUpdate ( $hash, "state", "enabled", 1 );
             Log3 $name, 3, "SmartPi ($name) - enabled";
+        }
+        
+    } elsif( $attrName eq "interval" ) {
+        if( $cmd eq "set" ) {
+        
+            $hash->{INTERVAL} = $attrVal;
+            
+        } else {
+
+            $hash->{INTERVAL} = 300;
         }
     }
     
