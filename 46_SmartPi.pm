@@ -60,7 +60,7 @@ use HttpUtils;
 eval "use JSON;1" or $missingModul .= "JSON ";
 
 
-my $version = "0.0.23";
+my $version = "0.0.24";
 
 
 
@@ -352,6 +352,8 @@ sub SmartPi_ErrorHandling($$$) {
         ### End Error Handling
     }
     
+    Log3 $name, 4, "SmartPi ($name) - Recieve JSON data: $data";
+    
     SmartPi_ResponseProcessing($hash,$data);
 }
 
@@ -448,3 +450,34 @@ sub SmartPi_WriteReadings($$) {
     
     readingsEndUpdate($hash,1);
 }
+
+
+
+
+
+
+
+
+
+1;
+
+
+=pod
+
+=item device
+=item summary    SmartPi
+=item summary_DE SmartPi
+
+=begin html
+
+<a name="SmartPi"></a>
+<h3>SmartPi</h3>
+
+=end html
+=begin html_DE
+
+<a name="SmartPi"></a>
+<h3>SmartPi</h3>
+
+=end html_DE
+=cut
