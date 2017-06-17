@@ -40,7 +40,7 @@
 #
 ###### Möglicher Aufbau eines JSON Strings für die SmartPi
 #
-# {"serial":"smartpi160812345","name":"House","lat":52.3667,"lng":9.7167,"time":"2017-05-30 19:52:11","softwareversion":"","ipaddress":"169.254.3.10","datasets":[{"time":"2017-05-30 19:52:08","phases":[{"phase":1,"name":"phase 1","values":[{"type":"current","unity":"A","info":"","data":0.24830514},{"type":"voltage","unity":"V","info":"","data":230},{"type":"power","unity":"W","info":"","data":57.110184},{"type":"cosphi","unity":"","info":"","data":0.70275474},{"type":"frequency","unity":"Hz","info":"","data":120.413925}]},{"phase":2,"name":"phase 2","values":[{"type":"current","unity":"A","info":"","data":0.86874366},{"type":"voltage","unity":"V","info":"","data":230},{"type":"power","unity":"W","info":"","data":199.81104},{"type":"cosphi","unity":"","info":"","data":0.99155134},{"type":"frequency","unity":"Hz","info":"","data":386.1237}]},{"phase":3,"name":"phase 3","values":[{"type":"current","unity":"A","info":"","data":1.3195294},{"type":"voltage","unity":"V","info":"","data":230},{"type":"power","unity":"W","info":"","data":303.49176},{"type":"cosphi","unity":"","info":"","data":-0.25960922},{"type":"frequency","unity":"Hz","info":"","data":153.38525}]},{"phase":4,"name":"phase 4","values":[{"type":"current","unity":"A","info":"","data":1.0668689}]}]}]}
+# Recieve JSON data: {"serial":"smartpi160812345","name":"B1.1_House","lat":52.3667,"lng":9.7167,"time":"2017-06-17 10:19:04","softwareversion":"","ipaddress":"169.254.3.10","datasets":[{"time":"2017-06-17 10:19:02","phases":[{"phase":1,"name":"phase 1","values":[{"type":"current","unity":"A","info":"","data":1.0003561},{"type":"voltage","unity":"V","info":"","data":230},{"type":"power","unity":"W","info":"","data":230.0819},{"type":"cosphi","unity":"","info":"","data":-0.72846437},{"type":"frequency","unity":"Hz","info":"","data":49.306625}]},{"phase":2,"name":"phase 2","values":[{"type":"current","unity":"A","info":"","data":0.45092472},{"type":"voltage","unity":"V","info":"","data":230},{"type":"power","unity":"W","info":"","data":103.712685},{"type":"cosphi","unity":"","info":"","data":-0.82941854},{"type":"frequency","unity":"Hz","info":"","data":48.192772}]},{"phase":3,"name":"phase 3","values":[{"type":"current","unity":"A","info":"","data":0.4813663},{"type":"voltage","unity":"V","info":"","data":230},{"type":"power","unity":"W","info":"","data":110.71425},{"type":"cosphi","unity":"","info":"","data":-0.2584238},{"type":"frequency","unity":"Hz","info":"","data":50.354053}]},{"phase":4,"name":"phase 4","values":[{"type":"current","unity":"A","info":"","data":0.7937981}]}]}]}
 #
 #
 ##
@@ -60,7 +60,7 @@ use HttpUtils;
 eval "use JSON;1" or $missingModul .= "JSON ";
 
 
-my $version = "0.0.24";
+my $version = "0.0.30";
 
 
 
@@ -435,10 +435,12 @@ sub SmartPi_WriteReadings($$) {
                 foreach $phase (@{$dataset->{phases}}) {
                     if( ref($phase->{values}) eq "ARRAY" and scalar(@{$phase->{values}}) > 0 ) {
                         foreach $value (@{$phase->{values}}) {
-                            while( my ( $t, $v ) = each %{$value} ) {
-        
-                                readingsBulkUpdateIfChanged( $hash, "$phase->{name}_$t", $v, 1 ) if( defined( $v ) );
-                            }
+                            
+                            readingsBulkUpdateIfChanged( $hash, "phase$phase->{phase}_Current", $value->{data}, 1 ) if( $value->{type} eq 'current' );
+                            readingsBulkUpdateIfChanged( $hash, "phase$phase->{phase}_Voltage", $value->{data}, 1 ) if( $value->{type} eq 'voltage' );
+                            readingsBulkUpdateIfChanged( $hash, "phase$phase->{phase}_Power", $value->{data}, 1 ) if( $value->{type} eq 'power' );
+                            readingsBulkUpdateIfChanged( $hash, "phase$phase->{phase}_Cosphi", $value->{data}, 1 ) if( $value->{type} eq 'cosphi' );
+                            readingsBulkUpdateIfChanged( $hash, "phase$phase->{phase}_Frequency", $value->{data}, 1 ) if( $value->{type} eq 'frequency' );
                         }
                     }
                 }
