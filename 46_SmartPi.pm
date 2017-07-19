@@ -60,7 +60,7 @@ use HttpUtils;
 eval "use JSON;1" or $missingModul .= "JSON ";
 
 
-my $version = "0.0.30";
+my $version = "1.0.0";
 
 
 
@@ -467,13 +467,29 @@ sub SmartPi_WriteReadings($$) {
 =pod
 
 =item device
-=item summary    SmartPi
-=item summary_DE SmartPi
+=item summary    Support read data from  Smart Pi expansion module
+=item summary_DE Liest die Daten vom Smart Pi Aufsteckmodul aus
 
 =begin html
 
 <a name="SmartPi"></a>
 <h3>SmartPi</h3>
+<ul>
+    <a name="SmartPireadings"></a>
+    <b>Readings</b>
+    <ul>
+        <li>phaseX_Current      - Current [A] (available for phase 1,2,3, neutral conductor)</li>
+        <li>phaseX_Voltage      - Voltage [V] (available for phase 1,2,3)</li>
+        <li>phaseX_Power        - Power [W]  (available for phase 1,2,3)</li>
+        <li>phaseX_Cosphi       - cos φ (available for phase 1,2,3 –  it is important to measure the voltage)</li>
+        <li>phaseX_Frequency    - Frequency [Hz]  (available for phase 1,2,3)</li>
+    </ul>
+    <a name="SmartPiget"></a>
+    <b>get</b>
+    <ul>
+        <li>phaseX Y             - get new Y (Voltage or Current or so)data about phaseX</li>
+    </ul>
+</ul>
 
 =end html
 =begin html_DE
