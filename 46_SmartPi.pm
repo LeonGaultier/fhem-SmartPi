@@ -498,6 +498,7 @@ sub SmartPi_WriteReadings($$) {
     <code>define Gardena_Bridge SmartPi 192.168.1.34</code><br>
   </ul>
   <br><br>
+</ul>
 <ul>
     <a name="SmartPireadings"></a>
     <b>Readings</b>
